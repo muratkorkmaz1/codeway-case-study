@@ -10,8 +10,8 @@ spec:
     targetRevision: main
     path: helm-chart
   destination:
-    server: 'https://127.0.0.1:52517'
-    namespace: nodejs-express-mysql
+    server: 'https://kubernetes.default.svc'
+    namespace: nodejs-app
   syncPolicy:
     automated:
       prune: true
