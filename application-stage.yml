@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nodejs-express-mysql-stage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/muratkorkmaz1/codeway-case-study.git'
+    targetRevision: stage
+    path: helm-chart
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: nodejs-app-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
