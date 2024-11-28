@@ -20,6 +20,13 @@ variables:
   KUBE_NAMESPACE_PROD: "your-prod-namespace"
   ARGOCD_APP_NAME_PROD: "your-argocd-app-name-prod"
 
+services:
+  - name: docker:20.10.7-dind
+    alias: docker
+
+before_script:
+  - docker info
+
 # Build Docker image
 build_image:
   stage: build
