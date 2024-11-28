@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
  
-# Build aşaması: Docker imajını oluşturma
+
 build:
   stage: build
   script:
