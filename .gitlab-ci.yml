@@ -1,0 +1,39 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# 1. Adım: Docker İmajı Oluşturma
+build:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  only:
+    - staging  # Bu aşama sadece 'staging' branch'inde çalışacak
+    - master   # Bu aşama sadece 'master' branch'inde çalışacak
+
+# 2. Adım: Testleri Çalıştırma
+test:
+  stage: test
+  script:
+    - docker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME npm test
+  only:
+    - staging
+    - master
+
+# 3. Adım: Staging Ortamına Deploy
+deploy_staging:
+  stage: deploy
+  script:
+    - kubectl apply -f k8s/staging-deployment.yaml
+  only:
+    - staging  # Bu aşama sadece 'staging' branch'inde çalışacak
+
+# 4. Adım: Production Ortamına Deploy
+deploy_production:
+  stage: deploy
+  script:
+    - kubectl apply -f k8s/production-deployment.yaml
+  only:
+    - master  # Bu aşama sadece 'master' branch'inde çalışacak
