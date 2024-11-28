@@ -2,15 +2,6 @@ stages:
   - build
   - deploy
  
-variables:
-  # Docker registry ve Helm ile ilgili parametreler
-  DOCKER_REGISTRY: "docker.io"
-  IMAGE_NAME: "muratkorkmaz24/nodejs-express-mysql"
-  HELM_RELEASE_NAME: "helm-chart"
-  NAMESPACE: "default"  # Kubernetes namespace (deploy sırasında kullanılacak)
-  HELM_CHART_DIR: "./helm-chart"  # Helm chart'ınızın bulunduğu dizin
-  VALUES_FILE: "./helm-chart/values.yml"  # Helm values dosyanız
- 
 # Build aşaması: Docker imajını oluşturma
 build:
   stage: build
@@ -36,7 +27,7 @@ deploy_main:
   stage: deploy
   script:
     - echo "Deploying to production (main branch)..."
-    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE
+    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE_STAGE
   only:
     - main  # Deploy işlemi sadece main branch'inde yapılacak
  
@@ -45,6 +36,6 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploying to staging..."
-    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE
+    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE_PROD
   only:
     - staging  # Deploy işlemi sadece staging branch'inde yapılacak
