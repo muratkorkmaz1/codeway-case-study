@@ -1,43 +1,59 @@
-image : docker:latest
-
 stages:
   - build
-  - deploy
- 
-# Build aşaması: Docker imajını oluşturma
-build:
+  - push
+  - deploy_stage
+  - deploy_prod
+
+variables:
+  # Docker Hub erişim bilgileri
+  DOCKER_REGISTRY: "docker.io"
+  DOCKER_IMAGE: "your-username/your-app-name"
+  HELM_CHART_DIR: "./helm-chart-directory"  # Helm chart dosya yolu
+
+  # Stage ortamı için Kubernetes bilgileri
+  KUBE_CONTEXT_STAGE: "your-kube-context-stage"
+  KUBE_NAMESPACE_STAGE: "your-stage-namespace"
+  ARGOCD_APP_NAME_STAGE: "your-argocd-app-name-stage"
+
+  # Prod ortamı için Kubernetes bilgileri
+  KUBE_CONTEXT_PROD: "your-kube-context-prod"
+  KUBE_NAMESPACE_PROD: "your-prod-namespace"
+  ARGOCD_APP_NAME_PROD: "your-argocd-app-name-prod"
+
+# Build Docker image
+build_image:
   stage: build
   script:
-    - echo "Building Docker image..."
-    - |
-      if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-        export IMAGE_TAG="latest"
-      elif [ "$CI_COMMIT_REF_NAME" == "staging" ]; then
-        export IMAGE_TAG="staging"
-      else
-        export IMAGE_TAG="dev"
-      fi
-    - echo "Tagging Docker image as $IMAGE_TAG"
-    - docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
-    - docker push $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+    - echo "Building Docker image"
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA .
   only:
-    - main
-    - staging  # Bu iş sadece main ve staging branch'lerinde çalışacak
- 
-# Deploy aşaması: Helm kullanarak Kubernetes'e dağıtım yapma (main için)
-deploy_main:
-  stage: deploy
+    - staging
+    - main  # Hem staging hem de main branch'leri için geçerli
+
+# Push Docker image to Docker Hub
+push_image:
+  stage: push
   script:
-    - echo "Deploying to production (main branch)..."
-    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE_STAGE
+    - echo "Pushing Docker image to Docker Hub"
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA
   only:
-    - main  # Deploy işlemi sadece main branch'inde yapılacak
- 
-# Deploy aşaması: Helm kullanarak Kubernetes'e dağıtım yapma (staging için)
-deploy_staging:
-  stage: deploy
+    - staging
+    - main  # Hem staging hem de main branch'leri için geçerli
+
+# Deploy to Kubernetes (Stage ortamı için)
+deploy_stage:
+  stage: deploy_stage
   script:
-    - echo "Deploying to staging..."
-    - helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR -f $VALUES_FILE --namespace $NAMESPACE_PROD
+    - echo "Deploying to Kubernetes (Stage) using Helm"
+    - helm upgrade --install your-app-name-stage $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_STAGE --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_STAGE
   only:
-    - staging  # Deploy işlemi sadece staging branch'inde yapılacak
+    - staging  # Sadece staging branch'inde çalışacak
+
+# Deploy to Kubernetes (Prod ortamı için)
+deploy_prod:
+  stage: deploy_prod
+  script:
+    - echo "Deploying to Kubernetes (Prod) using Helm"
+    - helm upgrade --install your-app-name-prod $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_PROD
+  only:
+    - main  # Sadece main branch'inde çalışacak
