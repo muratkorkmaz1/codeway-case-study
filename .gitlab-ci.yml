@@ -7,18 +7,18 @@ stages:
 variables:
   # Docker Hub erişim bilgileri
   DOCKER_REGISTRY: "docker.io"
-  DOCKER_IMAGE: "your-username/your-app-name"
-  HELM_CHART_DIR: "./helm-chart-directory"  # Helm chart dosya yolu
+  DOCKER_IMAGE: "muratkorkmaz24/nodejs-express-mysql:staging"
+  HELM_CHART_DIR: "./helm-chart"  # Helm chart dosya yolu
 
   # Stage ortamı için Kubernetes bilgileri
-  KUBE_CONTEXT_STAGE: "your-kube-context-stage"
-  KUBE_NAMESPACE_STAGE: "your-stage-namespace"
-  ARGOCD_APP_NAME_STAGE: "your-argocd-app-name-stage"
+  KUBE_CONTEXT_STAGE: "minikube"
+  KUBE_NAMESPACE_STAGE: "nodejs-app-stage"
+  ARGOCD_APP_NAME_STAGE: "nodejs-express-mysql"
 
   # Prod ortamı için Kubernetes bilgileri
-  KUBE_CONTEXT_PROD: "your-kube-context-prod"
-  KUBE_NAMESPACE_PROD: "your-prod-namespace"
-  ARGOCD_APP_NAME_PROD: "your-argocd-app-name-prod"
+  KUBE_CONTEXT_PROD: "minikube"
+  KUBE_NAMESPACE_PROD: "nodejs-app"
+  ARGOCD_APP_NAME_PROD: "nodejs-express-mysql-stage"
 
 services:
   - name: docker:20.10.7-dind
