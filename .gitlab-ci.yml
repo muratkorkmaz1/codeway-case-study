@@ -7,7 +7,7 @@ stages:
 variables:
   # Docker Hub erişim bilgileri
   DOCKER_REGISTRY: "docker.io"
-  DOCKER_IMAGE: "muratkorkmaz24/nodejs-express-mysql:staging"
+  DOCKER_IMAGE: "muratkorkmaz24/nodejs-express-mysql"
   HELM_CHART_DIR: "./helm-chart"  # Helm chart dosya yolu
 
   # Stage ortamı için Kubernetes bilgileri
@@ -52,7 +52,7 @@ deploy_stage:
   stage: deploy_stage
   script:
     - echo "Deploying to Kubernetes (Stage) using Helm"
-    - helm upgrade --install your-app-name-stage $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_STAGE --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_STAGE
+    - helm upgrade --install nodejs-express-mysql-stage $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_STAGE --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_STAGE
   only:
     - staging  # Sadece staging branch'inde çalışacak
 
@@ -61,6 +61,6 @@ deploy_prod:
   stage: deploy_prod
   script:
     - echo "Deploying to Kubernetes (Prod) using Helm"
-    - helm upgrade --install your-app-name-prod $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_PROD
+    - helm upgrade --install nodejs-express-mysql $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_PROD
   only:
     - main  # Sadece main branch'inde çalışacak
