@@ -37,6 +37,7 @@ build_image:
     - echo "Building Docker image"
     - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA .
     - docker images 
+    - docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE:$CI_COMMIT_SHA $DOCKER_REGISTRY/$DOCKER_IMAGE:latest
   only:
     - staging
     - main  # Hem staging hem de main branch'leri için geçerli
