@@ -23,7 +23,7 @@ variables:
   KUBE_CONTEXT_PROD: "minikube"
   KUBE_NAMESPACE_PROD: "nodejs-app"
   ARGOCD_APP_NAME_PROD: "nodejs-express-mysql-stage"
-  
+
 services:
   - name: docker:20.10.7-dind
     alias: docker
@@ -72,7 +72,7 @@ deploy_prod:
   stage: deploy_prod
   script:
     - kubectl config view
-    - kubectl get nodes --kube-context $KUBE_CONTEXT_STAGE
+    - kubectl get nodes --context $KUBE_CONTEXT_PROD
     - echo "Deploying to Kubernetes (Prod) using Helm"
     - kubectl get nodes
     - helm upgrade --install nodejs-express-mysql $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --context $KUBE_CONTEXT_PROD
