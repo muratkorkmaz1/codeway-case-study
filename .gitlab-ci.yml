@@ -1,5 +1,5 @@
 
-image: alpine/helm:3.11.2
+image: docker:latest
 
 
 stages:
