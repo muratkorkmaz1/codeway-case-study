@@ -30,6 +30,10 @@ services:
 
 before_script:
   - docker info
+  - apk add --no-cache curl bash
+  - curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  - helm version
+  - which helm
 
 # Build Docker image
 build_image:
@@ -60,6 +64,8 @@ deploy_stage:
 deploy_prod:
   stage: deploy_prod
   script:
+    - kubectl config view
+    - kubectl get nodes --kube-context $KUBE_CONTEXT_STAGE
     - echo "Deploying to Kubernetes (Prod) using Helm"
     - helm upgrade --install nodejs-express-mysql $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_PROD
   only:
