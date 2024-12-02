@@ -23,6 +23,7 @@ variables:
   KUBE_CONTEXT_PROD: "minikube"
   KUBE_NAMESPACE_PROD: "nodejs-app"
   ARGOCD_APP_NAME_PROD: "nodejs-express-mysql-stage"
+  KUBECONFIG_FILE_CONTENT: "~/.kube/config"
 
 services:
   - name: docker:20.10.7-dind
@@ -38,6 +39,9 @@ before_script:
   - chmod +x kubectl
   - mv kubectl /usr/local/bin/
   - kubectl version --client
+  - mkdir -p ~/.kube
+  - echo "$KUBECONFIG_FILE_CONTENT" > ~/.kube/config
+  - kubectl config view
 
 # Build Docker image
 build_image:
@@ -60,7 +64,7 @@ deploy_stage:
   stage: deploy_stage
   script:
     - echo "Deploying to Kubernetes (Stage) using Helm"
-    - helm upgrade --install nodejs-express-mysql-stage $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_STAGE --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_STAGE
+    - helm upgrade --install nodejs-express-mysql-stage $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_STAGE --set image.tag=$CI_COMMIT_SHA --context $KUBE_CONTEXT_STAGE
   only:
     - staging  # Sadece staging branch'inde çalışacak
 
@@ -71,6 +75,7 @@ deploy_prod:
     - kubectl config view
     - kubectl get nodes --kube-context $KUBE_CONTEXT_STAGE
     - echo "Deploying to Kubernetes (Prod) using Helm"
-    - helm upgrade --install nodejs-express-mysql $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --kube-context $KUBE_CONTEXT_PROD
+    - kubectl get nodes
+    - helm upgrade --install nodejs-express-mysql $HELM_CHART_DIR --namespace $KUBE_NAMESPACE_PROD --set image.tag=$CI_COMMIT_SHA --context $KUBE_CONTEXT_PROD
   only:
     - main  # Sadece main branch'inde çalışacak
