@@ -23,9 +23,7 @@ variables:
   KUBE_CONTEXT_PROD: "minikube"
   KUBE_NAMESPACE_PROD: "nodejs-app"
   ARGOCD_APP_NAME_PROD: "nodejs-express-mysql-stage"
-  KUBECONFIG_FILE_CONTENT: "YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eTogL1VzZXJzL211cmF0a29ya21hei8ubWluaWt1YmUvY2EuY3J0CiAgICBleHRlbnNpb25zOgogICAgLSBleHRlbnNpb246CiAgICAgICAgbGFzdC11cGRhdGU6IE1vbiwgMDIgRGVjIDIwMjQgMjM6MzE6MDUgKzAzCiAgICAgICAgcHJvdmlkZXI6IG1pbmlrdWJlLnNpZ3MuazhzLmlvCiAgICAgICAgdmVyc2lvbjogdjEuMzQuMAogICAgICBuYW1lOiBjbHVzdGVyX2luZm8KICAgIHNlcnZlcjogaHR0cHM6Ly8xMjcuMC4wLjE6NjQ3NDkKICBuYW1lOiBtaW5pa3ViZQpjb250ZXh0czoKLSBjb250ZXh0OgogICAgY2x1c3RlcjogbWluaWt1YmUKICAgIGV4dGVuc2lvbnM6CiAgICAtIGV4dGVuc2lvbjoKICAgICAgICBsYXN0LXVwZGF0ZTogTW9uLCAwMiBEZWMgMjAyNCAyMzozMTowNSArMDMKICAgICAgICBwcm92aWRlcjogbWluaWt1YmUuc2lncy5rOHMuaW8KICAgICAgICB2ZXJzaW9uOiB2MS4zNC4wCiAgICAgIG5hbWU6IGNvbnRleHRfaW5mbwogICAgbmFtZXNwYWNlOiBkZWZhdWx0CiAgICB1c2VyOiBtaW5pa3ViZQogIG5hbWU6IG1pbmlrdWJlCmN1cnJlbnQtY29udGV4dDogbWluaWt1YmUKa2luZDogQ29uZmlnCnByZWZlcmVuY2VzOiB7fQp1c2VyczoKLSBuYW1lOiBtaW5pa3ViZQogIHVzZXI6CiAgICBjbGllbnQtY2VydGlmaWNhdGU6IC9Vc2Vycy9tdXJhdGtvcmttYXovLm1pbmlrdWJlL3Byb2ZpbGVzL21pbmlrdWJlL2NsaWVudC5jcnQKICAgIGNsaWVudC1rZXk6IC9Vc2Vycy9tdXJhdGtvcmttYXovLm1pbmlrdWJlL3Byb2ZpbGVzL21pbmlrdWJlL2NsaWVudC5rZXkK"
   
-
 services:
   - name: docker:20.10.7-dind
     alias: docker
@@ -41,7 +39,7 @@ before_script:
   - mv kubectl /usr/local/bin/
   - kubectl version --client
   - mkdir -p ~/.kube
-  - echo "$KUBECONFIG_FILE_CONTENT" > ~/.kube/config
+  - echo "$KUBECONFIG_FILE_CONTENT" | base64 -d > ~/.kube/config
   - kubectl config view
 
 # Build Docker image
