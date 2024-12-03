@@ -54,7 +54,7 @@ test_runner:
     - kubectl get nodes --context $KUBE_CONTEXT_STAGE
     - echo "Runner test completed successfully!"
   only:
-    - all  # Bu aşama tüm branch'ler için çalışır
+    - main  # Bu aşama tüm branch'ler için çalışır
 # Build Docker image
 build_image:
   stage: build
