@@ -3,7 +3,7 @@ image: docker:latest
 
 
 stages:
-
+  - test_runner
   - build
   - deploy_stage
   - deploy_prod
@@ -42,6 +42,19 @@ before_script:
   - echo "$KUBECONFIG_FILE_CONTENT" | base64 -d > ~/.kube/config
   - kubectl config view
 
+test_runner:
+  stage: test_runner
+  script:
+    - echo "Testing GitLab Runner functionality"
+    - echo "Running on $(hostname)"
+    - docker --version
+    - helm version
+    - kubectl version --client
+    - kubectl config view
+    - kubectl get nodes --context $KUBE_CONTEXT_STAGE
+    - echo "Runner test completed successfully!"
+  only:
+    - all  # Bu aşama tüm branch'ler için çalışır
 # Build Docker image
 build_image:
   stage: build
