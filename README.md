@@ -1,66 +1,47 @@
-# Node.js Rest APIs with Express & MySQL example
+# DevOps Case Study: CI/CD Pipeline for Kubernetes Application
 
-For instruction, please visit:
-> [Build Node.js Rest APIs with Express & MySQL](https://www.bezkoder.com/node-js-rest-api-express-mysql/)
+Project Overview
 
-Front-end that works well with this Back-end
-> [Axios Client](https://www.bezkoder.com/axios-request/)
+This project demonstrates a CI/CD pipeline for deploying a Node.js application with database integration on Kubernetes. The solution leverages modern DevOps tools and practices to enable seamless deployment, scalability, and configuration management across multiple environments.
 
-> [Angular 8](https://www.bezkoder.com/angular-crud-app/) / [Angular 10](https://www.bezkoder.com/angular-10-crud-app/) / [Angular 11](https://www.bezkoder.com/angular-11-crud-app/) / [Angular 12](https://www.bezkoder.com/angular-12-crud-app/) / [Angular 13](https://www.bezkoder.com/angular-13-crud-example/) / [Angular 14](https://www.bezkoder.com/angular-14-crud-example/) / [Angular 15](https://www.bezkoder.com/angular-15-crud-example/) / [Angular 16 Client](https://www.bezkoder.com/angular-16-crud-example/) / [Angular 17 Client](https://www.bezkoder.com/angular-17-crud-example/)
 
-> [Vue 2 Client](https://www.bezkoder.com/vue-js-crud-app/) / [Vue 3 Client](https://www.bezkoder.com/vue-3-crud/) / [Vuetify Client](https://www.bezkoder.com/vuetify-data-table-example/)
+Steps Followed
 
-> [React Client](https://www.bezkoder.com/react-crud-web-api/) / [React Redux Client](https://www.bezkoder.com/react-redux-crud-example/)
+Step 1: Local Setup
+Installed Docker and MySQL locally.
+Containerized the Node.js application and deployed it locally using Docker.
 
-More Practice
-> [Build Node.js Rest APIs with Express, Sequelize & MySQL](https://www.bezkoder.com/node-js-express-sequelize-mysql/)
+Step 2: Kubernetes Setup
+Installed Minikube to create a local Kubernetes cluster.
+Deployed the application and database containers to Kubernetes using Helm charts.
 
-> [Server side Pagination in Node.js with Sequelize and MySQL](https://www.bezkoder.com/node-js-sequelize-pagination-mysql/)
+Step 3: ArgoCD Installation
+Set up ArgoCD for GitOps-based continuous deployment.
+Configured ArgoCD to manage application deployment in the Kubernetes cluster.
 
-> [Node.js Express File Upload Rest API example](https://www.bezkoder.com/node-js-express-file-upload/)
+Step 4: GitLab Integration and Pipeline
+Created a GitLab account and implemented a CI/CD pipeline.
 
-> [Node.js Express File Upload with Google Cloud Storage example](https://www.bezkoder.com/google-cloud-storage-nodejs-upload-file/)
+The pipeline automates the following:
+Building the application and creating a Docker image.
+Pushing the image to a container registry.
+Deploying the application to the Kubernetes cluster via ArgoCD.
 
-> [Node.js: Upload CSV file data into Database with Express](https://www.bezkoder.com/node-js-upload-csv-file-database/)
 
-> [Node.js: Upload Excel file data into Database with Express](https://www.bezkoder.com/node-js-upload-excel-file-database/)
+Additional Implementations
+Integrated GitHub and GitLab for seamless collaboration.
+Configured automated deployment triggers on Git push events.
 
-> [Deploying/Hosting Node.js app on Heroku with MySQL database](https://www.bezkoder.com/deploy-node-js-app-heroku-cleardb-mysql/)
 
-Security:
-> [Node.js Express: JWT example | Token Based Authentication & Authorization](https://www.bezkoder.com/node-js-jwt-authentication-mysql/)
 
-Associations:
-> [Sequelize Associations: One-to-Many Relationship example](https://www.bezkoder.com/sequelize-associate-one-to-many/)
+Features
 
-> [Sequelize Associations: Many-to-Many Relationship example](https://www.bezkoder.com/sequelize-associate-many-to-many/)
+-GitOps approach with ArgoCD ensuring Kubernetes state is always aligned with the Git repository.
+-Environment-specific configuration using Helm values and External-Secret for managing sensitive information.
+-Automated CI/CD process with GitLab pipelines to build, test, and deploy the application.
 
-Fullstack:
-> [Vue.js + Node.js + Express + MySQL example](https://www.bezkoder.com/vue-js-node-js-express-mysql-crud-example/)
 
-> [Vue.js + Node.js + Express + MongoDB example](https://www.bezkoder.com/vue-node-express-mongodb-mevn-crud/)
 
-> [Angular 8 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-node-express-mysql/)
-
-> [Angular 10 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-10-node-js-express-mysql/)
-
-> [Angular 11 + Node.js Express + MySQL example](https://www.bezkoder.com/angular-11-node-js-express-mysql/)
-
-> [Angular 12 + Node.js Express + MySQL example](https://www.bezkoder.com/angular-12-node-js-express-mysql/)
-
-> [Angular 13 + Node.js Express + MySQL example](https://www.bezkoder.com/angular-13-node-js-express-mysql/)
-
-> [Angular 14 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-14-node-js-express-mysql/)
-
-> [Angular 15 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-15-node-js-express-mysql/)
-
-> [Angular 16 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-16-node-js-express-mysql/)
-
-> [Angular 17 + Node.js + Express + MySQL example](https://www.bezkoder.com/angular-17-node-js-express-mysql/)
-
-> [React + Node.js + Express + MySQL example](https://www.bezkoder.com/react-node-express-mysql/)
-
-> [React + Redux + Node.js Express + MySQL](https://www.bezkoder.com/react-redux-mysql-crud/)
 
 ## Project setup
 ```
