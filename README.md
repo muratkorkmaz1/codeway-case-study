@@ -55,19 +55,18 @@ node server.js
 
 ## Screenshots
 
-### Initial Setup
+
 ![Initial Setup](screenshot.jpeg)
 
-### Kubernetes Deployment
 ![Kubernetes Deployment](screenshot2.jpeg)
 
-### ArgoCD Configuration
+
 ![ArgoCD Configuration](screenshot3.jpeg)
 
-### GitLab Pipeline
+
 ![GitLab Pipeline](screenshot4.jpeg)
 
-### Detailed View
+
 ![Detailed View 1](Screenshot_2024-12-03_at_16.07.08.png)
 ![Detailed View 2](Screenshot_2024-12-03_at_16.07.24.png)
 
